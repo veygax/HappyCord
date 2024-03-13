@@ -1,0 +1,23 @@
+{
+  "name": "happycord-web",
+  "version": "1.0.0",
+  "type": "module",
+  "types": "@types/HappyCord.d.ts",
+  "scripts": {
+    "build": "node ./build.js && node ./fix.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.24.0",
+    "@babel/plugin-transform-react-jsx": "^7.23.4",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@types/react": "^18.2.65",
+    "react": "^18.2.0",
+    "rollup": "^4.12.1",
+    "uglifyjs": "^2.4.11"
+  }
+}
