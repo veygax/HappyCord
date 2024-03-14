@@ -6,68 +6,55 @@ let HappyCord: HappyCord = window["HappyCord"]
 let TestPlugin: Plugin = {
     name:"TestPlugin",
     description: "A plugin that patches and has test stuff",
-    authors: [1n],
+    authors: [HappyCord.Devs["Voxj."]],
     patches: [
         {
-            find: "delete window.localStorage",
+            find: "f6c7b8245d3a54cf98b2.png",
             replacements: [
                 {   
-                    match: /delete window.localStorage/,
-                    replace: "console.log(\"blocked localstorage remover\")" 
+                    match: /\w+\.p\+("|')f6c7b8245d3a54cf98b2\.png("|')/,
+                    replace(str:string){
+                        return `"${HappyCord.settings["TestPlugin"].AVATAR_PREVIEW_URL}"`
+                    }
                 }
             ]
         }
     ],
+    testPatch(children,props){
+        const { MenuItem } = HappyCord.Common.Componements
+
+        console.log(children)
+        children.push(<MenuItem 
+            id="the-emoji-name"
+            label={props[0].target.dataset.name}
+            action={()=>{
+            const ToastsApi = HappyCord.Common.ToastsApi
+            ToastsApi.showToast(ToastsApi.createToast("patches work!",4))
+        }}></MenuItem>)
+    },
     start(){
         const ToastsApi = HappyCord.Common.ToastsApi
         ToastsApi.showToast(ToastsApi.createToast("hello friendz, this plugin is started!",4))
+        HappyCord.plugins.BadgesApi.addBadge("1083437693347827764",{
+            id: "bleh",
+            description: "Bleh",
+            icon: "https://cdn.discordapp.com/emojis/1103750853317374124.webp?size=128&quality=lossless"
+        })
+        HappyCord.plugins.ContextMenuAPI.addContextMenuPatch("expression-picker",this.testPatch)
     },
     stop(){
         const ToastsApi = HappyCord.Common.ToastsApi
         ToastsApi.showToast(ToastsApi.createToast("hello friendz, this plugin is stopped!",4))
-    },
-    subscribptions: {
-        MESSAGE_CREATE: (event) => {
-            let options_generated = ``
-            for (let option in HappyCord.settings["TestPlugin"]){
-                options_generated += `**${option}:** ${HappyCord.settings["TestPlugin"][option]}\n`
-            }
-            event.message.content = options_generated
-        },
-        MESSAGE_DELETE: (event) => {
-            event.$cancel$()
-        }
+        HappyCord.plugins.ContextMenuAPI.removeContextMenuPatch("expression-picker",this.testPatch)
     },
     options: {
-        TEST: {
+        AVATAR_PREVIEW_URL: {
             type: HappyCord.OptionsTypes.TEXT,
-            name: "hi",
-            description: "crazy",
-            default: "lmao"
+            name: "Enter the image url",
+            description:"The image that will be used on preview on collectibles shop.",
+            default: "/assets/f6c7b8245d3a54cf98b2.png"
         },
-        LMAO: {
-            type: HappyCord.OptionsTypes.CUSTOM,
-            compomenet: () => {
-               return <button style={{color:"red"}}>test!!</button>
-            }
-        },
-        MAN: {
-            type: HappyCord.OptionsTypes.BOOLEAN,
-            name: "is good?",
-            description:"is it really good?",
-            default: true
-        },
-        DROP: {
-            type: HappyCord.OptionsTypes.DROPDOWN,
-            name: "testing....",
-            description:"crazy plugin",
-            options: [
-                { label: "Random Characters", value: "random", default: true },
-                { label: "Consistent", value: "cons" },
-                { label: "Timestamp", value: "timestamp" },
-            ],
-            placeholder: "Choose an option or you have skill issue"
-        }
+        
     }
 }
 HappyCord.definePlugin(TestPlugin)

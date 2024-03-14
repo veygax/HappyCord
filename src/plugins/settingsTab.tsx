@@ -6,7 +6,7 @@ let HappyCord: HappyCord = window["HappyCord"];
 let settingsTabPlugin: Plugin = {
   name: "SettingsTab",
   description: "Settings tab for happycord",
-  authors: [1083437693347827764n],
+  authors: [HappyCord.Devs.HappyEnderman],
   patches: [
     /** add happycord banner to version hash*/
     {
@@ -48,122 +48,160 @@ let settingsTabPlugin: Plugin = {
       plugin: undefined,
     },
   ],
-  openSettingsForPlugin(plugin){
-    let { ModalRoot,ModalHeader,ModalCloseButton,ModalContent, ModalFooter,ModalSize,Select, FormTitle, FormText, FormSection, FormSwitch, Text, TextArea, TextInput, Button } =
-        HappyCord.Common.Componements;
-    const SettingsModal = props => {
-        const { useState } = HappyCord.Common.ReactHooks 
-        const [ state, setState ] = useState(HappyCord.settings[plugin.name])
-        return <ModalRoot {...props} size={ModalSize.MEDIUM}>
-            <ModalHeader>
-                <Text color="header-primary" variant="heading-lg/semibold" tag="h1" style={{ flexGrow: 1 }}>{plugin.name} - Settings:</Text>
-                <ModalCloseButton onClick={props.onClose}></ModalCloseButton>
-            </ModalHeader>
-            <ModalContent>
-                <br />
+  openSettingsForPlugin(plugin) {
+    let {
+      ModalRoot,
+      ModalHeader,
+      ModalCloseButton,
+      ModalContent,
+      ModalFooter,
+      ModalSize,
+      Select,
+      FormTitle,
+      FormText,
+      FormSection,
+      FormSwitch,
+      Text,
+      TextArea,
+      TextInput,
+      Button,
+    } = HappyCord.Common.Componements;
+    const SettingsModal = (props) => {
+      const { useState } = HappyCord.Common.ReactHooks;
+      const [state, setState] = useState(HappyCord.settings[plugin.name]);
+      return (
+        <ModalRoot {...props} size={ModalSize.MEDIUM}>
+          <ModalHeader>
+            <Text
+              color="header-primary"
+              variant="heading-lg/semibold"
+              tag="h1"
+              style={{ flexGrow: 1 }}
+            >
+              {plugin.name} - Settings:
+            </Text>
+            <ModalCloseButton onClick={props.onClose}></ModalCloseButton>
+          </ModalHeader>
+          <ModalContent>
+            <br />
 
-                {Object.keys(plugin.options).map(key=>{
-                    const option = plugin.options[key]
-                    if (option.type === HappyCord.OptionsTypes.TEXT){
-                        let option_formatted = {}
-                        option_formatted[key] = HappyCord.settings[plugin.name][key] ?? option.default
-                        return (<><FormSection key={key} title={option.name}>
-                        <FormText type="description">
-                            {option.description}
-                        </FormText>
-                        <TextInput
-                            placeholder=""
-                            value={state[key]}
-                            onChange={(text) => { 
-                                setState({
-                                    ...state,
-                                    [key]: text 
-                                });    
-                            } }
-                        />
-                    </FormSection><br/></>) 
-                    }
-                    /** custom option */
-                    if (option.type === HappyCord.OptionsTypes.CUSTOM){
-                        return <><option.compomenet></option.compomenet><br/></>
-                    }
-                    /** boolean option */
-                    if (option.type === HappyCord.OptionsTypes.BOOLEAN){
-                        let option_formatted = {}
-                        option_formatted[key] = HappyCord.settings[plugin.name][key] ?? option.default
-                        return (
-                            <>    
-                                <FormSwitch 
-                                    value={state[key]}
-                                    note={option.name}
-                                    key={key}
-                                    onChange={(value) => { 
-                                        setState({
-                                            ...state,
-                                            [key]: value 
-                                        });
-                                    } }
-                                >{option.description}</FormSwitch>
-                                <br />
-                            </>
-                        )
-                    }
-                    if (option.type === HappyCord.OptionsTypes.DROPDOWN){
-                      console.log(option)  
-                      return (
-                            <>
-                            <FormSection key={key} title={option.name}>
-                                <FormTitle>{option.description}</FormTitle>
-                                <Select
-                                    isDisabled={false}
-                                    options={option.options}
-                                    placeholder={option.placeholder ?? "Select an option"}
-                                    maxVisibleItems={5}
-                                    closeOnSelect={true}
-                                    select={(value) => {
-                                        console.log(value)
-                                        setState({
-                                            ...state, 
-                                            [key]: value
-                                        })
-                                    }}
-                                    isSelected={v => v === state[key]}
-                                    serialize={v => String(v)}
-                                    {...option.componentProps}
-                                />
-                               
-                            </FormSection>
-                            <br />
-                            </>
-                        )
-                    }
-                })}
-                
-                <br />
-                
-            </ModalContent>
-            <ModalFooter>
-                <Button
-                    onClick={() => {
-                        HappyCord.settings[plugin.name] = state 
-                        HappyCord.SettigsStorage.saveChanges()
-                        props.onClose()
-                    }}
-                    disabled={false}
-                >
-                    Save & close 
-                </Button>
-                <Button
-                    onClick={props.onClose}
-                    color={Button.Colors.PRIMARY}
-                    look={Button.Looks.LINK}
-                >
-                    Cancel
-                </Button>
-            </ModalFooter>
-        </ModalRoot>;
-    }
-    HappyCord.Common.openModal(props=><SettingsModal {...props}></SettingsModal>)
+            {Object.keys(plugin.options).map((key) => {
+              const option = plugin.options[key];
+              if (option.type === HappyCord.OptionsTypes.TEXT) {
+                let option_formatted = {};
+                option_formatted[key] =
+                  HappyCord.settings[plugin.name][key] ?? option.default;
+                return (
+                  <>
+                    <FormSection key={key} title={option.name}>
+                      <FormText type="description">
+                        {option.description}
+                      </FormText>
+                      <TextInput
+                        placeholder=""
+                        value={state[key]}
+                        onChange={(text) => {
+                          setState({
+                            ...state,
+                            [key]: text,
+                          });
+                        }}
+                      />
+                    </FormSection>
+                    <br />
+                  </>
+                );
+              }
+              /** custom option */
+              if (option.type === HappyCord.OptionsTypes.CUSTOM) {
+                return (
+                  <>
+                    <option.compomenet></option.compomenet>
+                    <br />
+                  </>
+                );
+              }
+              /** boolean option */
+              if (option.type === HappyCord.OptionsTypes.BOOLEAN) {
+                let option_formatted = {};
+                option_formatted[key] =
+                  HappyCord.settings[plugin.name][key] ?? option.default;
+                return (
+                  <>
+                    <FormSwitch
+                      value={state[key]}
+                      note={option.name}
+                      key={key}
+                      onChange={(value) => {
+                        setState({
+                          ...state,
+                          [key]: value,
+                        });
+                      }}
+                    >
+                      {option.description}
+                    </FormSwitch>
+                    <br />
+                  </>
+                );
+              }
+              if (option.type === HappyCord.OptionsTypes.DROPDOWN) {
+                console.log(option);
+                return (
+                  <>
+                    <FormSection key={key} title={option.name}>
+                      <FormTitle>{option.description}</FormTitle>
+                      <Select
+                        isDisabled={false}
+                        options={option.options}
+                        placeholder={option.placeholder ?? "Select an option"}
+                        maxVisibleItems={5}
+                        closeOnSelect={true}
+                        select={(value) => {
+                          console.log(value);
+                          setState({
+                            ...state,
+                            [key]: value,
+                          });
+                        }}
+                        isSelected={(v) => v === state[key]}
+                        serialize={(v) => String(v)}
+                        {...option.componentProps}
+                      />
+                    </FormSection>
+                    <br />
+                  </>
+                );
+              }
+            })}
+
+            <br />
+          </ModalContent>
+          <ModalFooter>
+            <Button
+              onClick={() => {
+                HappyCord.settings[plugin.name] = state;
+                HappyCord.SettigsStorage.saveChanges();
+                props.onClose();
+              }}
+              disabled={false}
+            >
+              Save & close
+            </Button>
+            <Button
+              onClick={props.onClose}
+              color={Button.Colors.PRIMARY}
+              look={Button.Looks.LINK}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalRoot>
+      );
+    };
+    HappyCord.Common.openModal((props) => (
+      <SettingsModal {...props}></SettingsModal>
+    ));
   },
   getSettings() {
     let { FormSection, FormSwitch, Text, TextArea, TextInput, Button } =
@@ -187,6 +225,22 @@ let settingsTabPlugin: Plugin = {
       );
     }
 
+    const SettingsButton = (props: any) => {
+      
+      return Boolean(props.plugin.options) ? (
+        <Button
+          color={Button.Colors.BRAND}
+          disabled={!props.plugin.enabled || !props.plugin.options}
+          onClick={() => {
+            HappyCord.plugins.SettingsTab.openSettingsForPlugin(props.plugin);
+          }}
+        >
+          ⚙️
+        </Button>
+      ) : (
+        <></>
+      );
+    };
     const Plugins = () => (
       <FormSection
         tag="h1"
@@ -211,25 +265,22 @@ let settingsTabPlugin: Plugin = {
             <div
               key={plugin.name}
               className={`plugin-card ${
-                plugin.name === "SettingsTab" ? "plugin-disabled" : ""
+                Object.keys(HappyCord.requiredPlugins).includes(plugin.name)
+                  ? "plugin-disabled"
+                  : ""
               }`}
             >
               <div className="plugin-card-header">
                 <Text className="plugin-card-name" varient="text-md/bold">
                   {plugin.name}
                 </Text>
-                <Button
-                  color={Button.Colors.BRAND}
-                  disabled={!plugin.enabled}
-                  onClick={() => {
-                    HappyCord.plugins.SettingsTab.openSettingsForPlugin(plugin)
-                  } }
-                >
-                  ⚙️
-                </Button>
+                <SettingsButton plugin={plugin}></SettingsButton>
                 <Button
                   color={Button.Colors.BRAND_NEW}
-                  disabled={plugin.enabled || plugin.name === "SettingsTab"}
+                  disabled={
+                    plugin.enabled ||
+                    Object.keys(HappyCord.requiredPlugins).includes(plugin.name)
+                  }
                   onClick={() => {
                     HappyCord.plugins[plugin.name].enable();
                     if (search_string) {
@@ -243,7 +294,10 @@ let settingsTabPlugin: Plugin = {
                 </Button>
                 <Button
                   color={Button.Colors.BRAND_NEW}
-                  disabled={!plugin.enabled || plugin.name === "SettingsTab"}
+                  disabled={
+                    !plugin.enabled ||
+                    Object.keys(HappyCord.requiredPlugins).includes(plugin.name)
+                  }
                   onClick={() => {
                     console.log(plugin);
                     HappyCord.plugins[plugin.name].disable();

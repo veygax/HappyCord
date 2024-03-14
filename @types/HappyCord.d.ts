@@ -7732,7 +7732,8 @@ interface Remplacment {
 
 interface Patch {
     find: string
-    replacements: Remplacment[]
+    replacements?: Remplacment[]
+    replacement?: Remplacment
     plugin?: string
 }
 
@@ -7757,7 +7758,7 @@ interface Option {
 
 export type Plugin = {
     name: string
-    authors: bigint[]
+    authors: string[]
     description: string
     patches?: Patch[]
     subscribptions?: {}
@@ -7785,12 +7786,39 @@ interface Module {
     id: string 
 }
 
+interface Badge {
+    id: string, 
+    description: string
+    icon: string 
+    link?: string 
+}
 
 export type HappyCord = {
-    plugins: any
+    plugins: {
+        BadgesApi: {
+            /** original get user profile function */
+            getUserProfile_(userId): any 
+            /** patched get user profile function */
+            getUserProfile(userId): any
+            /** give a user a badge */
+            addBadge(userId: string, badge:Badge): void 
+        }
+        ContextMenuAPI: {
+            /** add's a context menu patch, handler get's called when context menu is loaded */
+            addContextMenuPatch(navId: string, handler: Function): void 
+            /** remove's the context menu patch */
+            removeContextMenuPatch(navId: string, handler: Function): void 
+        }
+        [key: string]: Plugin,
+        
+    }
+    Devs: {
+        [key: string]: string 
+    }
     patches: Patch[]
-    webpackChunkdiscord_app: object
-    $$OriginalPush: Function
+    webpackChunkdiscord_app: any
+    $$OriginalPush: any
+    patchModules: Function
     handlePush: Function
     __subscribptions: {
         type: string
@@ -7802,7 +7830,7 @@ export type HappyCord = {
         TEXT: number
         CUSTOM: number
     }
-    settings: object 
+    settings: any 
     SettigsStorage: {
         /** Save the changes that were made to the settings object */
         saveChanges(): void 
@@ -7896,7 +7924,7 @@ export type HappyCord = {
     /** Creates a new style element with the css given & the id **/
     injectCss(id, css): HTMLStyleElement,
     /** Load's the module with the given id */
-    wreq(id:string|number): any
+    wreq: any
     /** Find's a module with the given proprities */
     findByProps(...props): any 
     /** Find's all modules with the given proprities */
