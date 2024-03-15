@@ -4,7 +4,7 @@
   "type": "module",
   "types": "@types/HappyCord.d.ts",
   "scripts": {
-    "build": "node ./build.js && node ./fix.js"
+    "build": "node ./removeDistFolder.js && node ./build.js && node ./combine.js && node ./removeDistFolder.js "
   },
   "devDependencies": {
     "@babel/cli": "^7.23.9",

@@ -256,11 +256,11 @@ let settingsTabPlugin: Plugin = {
           }}
         ></TextInput>
         <br />
-        <Text varient="text-xl/bold">
+        <Text variant="text-md/bold">
           Showing: {PluginsList.length} plugin(s)!
         </Text>
         <br />
-        {PluginsList.map((plugin) => (
+        {PluginsList.filter(plugin=>!HappyCord.requiredPlugins[plugin.name]).map((plugin) => (
           <>
             <div
               key={plugin.name}
@@ -271,7 +271,7 @@ let settingsTabPlugin: Plugin = {
               }`}
             >
               <div className="plugin-card-header">
-                <Text className="plugin-card-name" varient="text-md/bold">
+                <Text className="plugin-card-name" variant="text-md/bold">
                   {plugin.name}
                 </Text>
                 <SettingsButton plugin={plugin}></SettingsButton>
@@ -310,7 +310,68 @@ let settingsTabPlugin: Plugin = {
                   Disable
                 </Button>
               </div>
-              <Text className="plugin-card-desc" varient="text-xs/small">
+              <Text className="plugin-card-desc" variant="text-xs/small">
+                {plugin.description}
+              </Text>
+            </div>
+            <br />
+          </>
+        ))}
+        <br />
+        <Text variant="text-md/bold">
+          Required plugins: 
+        </Text>
+        {PluginsList.filter(plugin=>HappyCord.requiredPlugins[plugin.name]).map((plugin) => (
+          <>
+            <div
+              key={plugin.name}
+              className={`plugin-card ${
+                Object.keys(HappyCord.requiredPlugins).includes(plugin.name)
+                  ? "plugin-disabled"
+                  : ""
+              }`}
+            >
+              <div className="plugin-card-header">
+                <Text className="plugin-card-name" variant="text-md/bold">
+                  {plugin.name}
+                </Text>
+                <SettingsButton plugin={plugin}></SettingsButton>
+                <Button
+                  color={Button.Colors.BRAND_NEW}
+                  disabled={
+                    plugin.enabled ||
+                    Object.keys(HappyCord.requiredPlugins).includes(plugin.name)
+                  }
+                  onClick={() => {
+                    HappyCord.plugins[plugin.name].enable();
+                    if (search_string) {
+                      search(search_string);
+                      return;
+                    }
+                    setPlugins(Object.values(HappyCord.plugins));
+                  }}
+                >
+                  Enable
+                </Button>
+                <Button
+                  color={Button.Colors.BRAND_NEW}
+                  disabled={
+                    !plugin.enabled ||
+                    Object.keys(HappyCord.requiredPlugins).includes(plugin.name)
+                  }
+                  onClick={() => {
+                    console.log(plugin);
+                    HappyCord.plugins[plugin.name].disable();
+                    if (search_string) {
+                      search(search_string);
+                    }
+                    setPlugins(Object.values(HappyCord.plugins));
+                  }}
+                >
+                  Disable
+                </Button>
+              </div>
+              <Text className="plugin-card-desc" variant="text-xs/small">
                 {plugin.description}
               </Text>
             </div>
@@ -377,7 +438,7 @@ let settingsTabPlugin: Plugin = {
     return (
       <Text
         tag="span"
-        varient="text-xs/normal"
+        variant="text-xs/normal"
         color="text-muted"
         className={line}
       >

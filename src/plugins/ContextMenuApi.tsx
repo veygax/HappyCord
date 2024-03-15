@@ -69,19 +69,23 @@ let ContextMenuApi: Plugin = {
         
             return obj;
         }
-        props = {
-            ...props,
-            children: cloneMenuChildren(props.children)
-        }
-
-        if (!Array.isArray(props.children)) props.children = [props.children];
 
 
-        for (let patch of HappyCord.settings.ContextMenuAPI.patches){
-            if (patch.navId === props.navId){
-                patch.handler(props.children, props.contextMenuApiArguments ?? [])
+        if (HappyCord.settings.ContextMenuAPI.patches.filter(patch=>patch.navId === props.navId).length > 0){
+            props = {
+                ...props,
+                children: cloneMenuChildren(props.children)
+            }
+    
+            if (!Array.isArray(props.children)) props.children = [props.children];
+    
+            for (let patch of HappyCord.settings.ContextMenuAPI.patches){
+                if (patch.navId === props.navId){
+                    patch.handler(props.children, props.contextMenuApiArguments ?? [])
+                }
             }
         }
+       
         return props 
     }
 }

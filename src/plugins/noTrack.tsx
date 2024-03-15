@@ -10,6 +10,14 @@ let NoTrackPlugin: Plugin = {
     authors: [HappyCord.Devs.HappyEnderman],
     required: true,
     patches: [
+        /** fix discord fucking localstorage */
+        {
+            find: "delete window.localStorage",
+            replacement: {
+                match: /delete window\.localStorage/,
+                replace: "" // hell naw discord aint removing me :)))
+            }
+        },
         {
             find: "AnalyticsActionHandlers.handle",
             replacement: {

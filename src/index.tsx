@@ -221,7 +221,7 @@ HappyCord.definePlugin = (plugin) => {
   }
   console.log(plugin.name)
   plugin.enabled =
-    HappyCord.settings[plugin.name].enabled;
+    HappyCord.settings[plugin.name]?.enabled ?? false ;
   HappyCord.plugins[plugin.name] = plugin;
   if (plugin.enabled || Object.keys(HappyCord.requiredPlugins).includes(plugin.name)) {
     for (let option in plugin.options) {
