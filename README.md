@@ -16,4 +16,6 @@ $ cd HappyCord && npm install
 $ npm run build
 ```
 
-4. add the unpacked extension from **dist** folder to chrome (ONLY WORKS FOR CHROME RN)
+4. add the unpacked extension from either **dist-chromium** for chromium based browsers or **dist-fox** for firefox based browsers
+
+⚠️ HappyCord isnt avaible for desktop as of now, i'm working so hard on it
