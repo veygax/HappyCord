@@ -18,4 +18,5 @@ $ npm run build
 
 4. add the unpacked extension from either **dist-chromium** for chromium based browsers or **dist-fox** for firefox based browsers
 
-⚠️ HappyCord isnt avaible for desktop as of now, i'm working so hard on it
+> [!NOTE]
+> HappyCord isnt avaible for desktop as of now, i'm working so hard on it
