@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 1,
   "minimum_chrome_version": "91",
   "name": "Happycord Web",
   "description": "The easiest Discord mod now in your browser",
