@@ -1,22 +1,21 @@
-# HappyCord
-The best discord client, better then vencord &amp; betterdiscord 
+<h1 align="center">HappyCord</h1>
+<h2 align="center">The best Discord mod, better then Vencord &amp; BetterDiscord</h2>
+<p align="center">Installation Guide</p>
 
-## How to install:
-
-1. clone the repo:
+1. Clone the repository:
 ```sh
-$ git clone https://github.com/Wumpus-University/HappyCord/
+git clone https://github.com/Wumpus-University/HappyCord/
 ```
-2. install the modules
+2. Install the modules
 ```sh
-$ cd HappyCord && npm install
+cd HappyCord && npm install
 ```
-3. build the client mod
+3. Build the mod
 ```sh
-$ npm run build
+npm run build
 ```
 
-4. add the unpacked extension from either **dist-chromium** for chromium based browsers or **dist-fox** for firefox based browsers
+4. add the unpacked extension from either **dist-chromium** for chromium-based browsers or **dist-fox** for fox-based browsers
 
 > [!NOTE]
-> HappyCord isnt avaible for desktop as of now, i'm working so hard on it
+> HappyCord isnt avaible for the desktop client as for now, but I'm working hard on it.
