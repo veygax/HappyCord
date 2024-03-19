@@ -8,11 +8,11 @@ git clone https://github.com/Wumpus-University/HappyCord/
 ```
 2. Install the modules
 ```sh
-cd HappyCord && npm install
+cd HappyCord && pnpm install
 ```
 3. Build the mod
 ```sh
-npm run build
+pnpm run build
 ```
 
 4. add the unpacked extension from either **dist-chromium** for chromium-based browsers or **dist-fox** for fox-based browsers
