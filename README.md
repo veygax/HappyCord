@@ -6,7 +6,11 @@
 ```sh
 git clone https://github.com/Wumpus-University/HappyCord/
 ```
-2. Install the modules
+2. Install pnpm:
+```sh
+npm install -g pnpm
+```   
+3. Install the modules
 ```sh
 cd HappyCord && pnpm install
 ```
